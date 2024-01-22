@@ -13,6 +13,7 @@ import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 
 import java.io.File;
+import java.net.URI;
 import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -78,7 +79,9 @@ public class ImageClassificationAppBeta extends Application {
              Session session = new Session(graph)) {
 
             // Load the pre-trained TensorFlow model
-                byte[] graphDef = readAllBytes(Paths.get("file:///D:/Bootcamp/frozen_model/save_model.pb")); // Replace with the actual path to your model
+            URI uri = ClassLoader.getSystemResource("com/tensorflow/javafx").toURI();
+            String mainPath = Paths.get(uri).toString();
+            byte[] graphDef = readAllBytes(Paths.get(mainPath ,"saved_model.pb"));
             graph.importGraphDef(graphDef);
 
             // Preprocess the image and convert it to a tensor
